@@ -19,10 +19,10 @@ class ENV(Enum):
     DEVELOPMENT = "development"
 
 class DB():
-    USER = ""
-    PASSWORD = ""
-    HOST = ""
-    DATABASE = ""
+    USER = "admin"
+    PASSWORD = "adminpassword"
+    HOST = "localhost"
+    DATABASE = "projeto_facisa"
 
 class TOKEN():
     SECRET_KEY = "ASDKOASKDASOKDASODKASODK"

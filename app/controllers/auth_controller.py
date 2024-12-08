@@ -5,21 +5,19 @@ from typing import Annotated
 # CONTROLLERS
 from app.services.auth_service import AuthService
 # MODEL
-from app.models.token_model import Token
+from app.pydantic_models.auth_model import LoginRequest
+from app.pydantic_models.token_model import Token
 # UTILS
 from app.utils.validate_user import get_current_user
 
 auth_router = APIRouter(
-    prefix='/auth',
+    prefix='/api/auth',
     tags=['auth'],
 )
 
 @auth_router.post("/login", response_model=Token)
-async def login(data: Annotated[OAuth2PasswordRequestForm, Depends()]):
-    user, err = AuthService.authenticate_user(data.username, data.password)
-    if err:
-        raise HTTPException(status_code=401, detail=err)
-    token = AuthService.create_access_token(user.get('username', ''), user.get('_id', ''), user.get('role', ''))
+async def login(data: LoginRequest):
+    token = AuthService.authenticate_user(data.email, data.password)
     return {'access_token': token, 'token_type':'bearer'}
 
 @auth_router.get("/me")
